@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Код 2FA — Remont{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1>Двухфакторная аутентификация</h1>
+    <p class="subtitle">Введите 6-значный код из приложения (Google Authenticator, Authy и т.п.)</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="field{% if form.otp_token.errors %} field-error{% endif %}">
+            <label for="{{ form.otp_token.id_for_label }}">{{ form.otp_token.label }}</label>
+            {{ form.otp_token }}
+            {% for error in form.otp_token.errors %}<span class="error">{{ error }}</span>{% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">Подтвердить</button>
+    </form>
+</div>
+{% endblock %}

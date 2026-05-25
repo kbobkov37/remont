@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Настройка 2FA — Remont{% endblock %}
+
+{% block content %}
+<div class="card card-wide">
+    <h1>Настройка 2FA</h1>
+    <p class="subtitle">Отсканируйте QR-код в приложении-аутентификаторе и введите код для подтверждения</p>
+
+    <div class="setup-grid">
+        <div class="qr-block">
+            <img src="{% url 'accounts:qrcode' device.pk %}" alt="QR-код для 2FA" width="200" height="200">
+            <p class="help">Или введите ключ вручную в приложение</p>
+            <code class="secret">{{ device.key }}</code>
+        </div>
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="field{% if form.token.errors %} field-error{% endif %}">
+                <label for="{{ form.token.id_for_label }}">{{ form.token.label }}</label>
+                {{ form.token }}
+                {% for error in form.token.errors %}<span class="error">{{ error }}</span>{% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Подтвердить и войти</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

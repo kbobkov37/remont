@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}Панель — Remont{% endblock %}
+
+{% block content %}
+<div class="card card-wide">
+    <h1>Панель управления</h1>
+    <p class="subtitle">Добро пожаловать, {{ user.full_name }}!</p>
+
+    <dl class="profile">
+        <dt>Логин</dt>
+        <dd>{{ user.username }}</dd>
+        <dt>ФИО</dt>
+        <dd>{{ user.full_name }}</dd>
+        <dt>Email</dt>
+        <dd>{{ user.email }}</dd>
+        <dt>Телефон</dt>
+        <dd>{{ user.phone }}</dd>
+    </dl>
+
+    <section class="section">
+        <h2>Безопасность</h2>
+        <p>2FA активна. Подключённые устройства:</p>
+        <ul>
+            {% for device in devices %}
+                <li>{{ device.name }} ({{ device.model_label }})</li>
+            {% empty %}
+                <li>Нет подтверждённых устройств</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    {% if user.is_staff %}
+        <p class="footer-link"><a href="{% url 'admin:index' %}">Django Admin (для сотрудников)</a></p>
+    {% endif %}
+</div>
+{% endblock %}
